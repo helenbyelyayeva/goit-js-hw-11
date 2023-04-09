@@ -37,11 +37,12 @@ const onSearch = async event => {
             );
             lightbox.refresh();
             return;
-        }
+        } else if (hits.length < api.perPage) {
         Notiflix.Notify.info(` Hooray! We found ${totalHits} images.`);
         onScroll();
         lightbox.refresh();
         return;
+        }
     } catch (err) {
         console.log;
     }
@@ -51,7 +52,7 @@ const onSearch = async event => {
 };
 
 
-const observer = new IntersectionObserver(async (entries, observer) => {
+const observer = new IntersectionObserver( async (entries, observer) => {
     const [targetEl] = entries;
     if (targetEl.isIntersecting) {
         api.page += 1;
@@ -62,8 +63,9 @@ const observer = new IntersectionObserver(async (entries, observer) => {
             Notiflix.Notify.info(
                 "We're sorry, but you've reached the end of search results."
             );
-            observer.unobserve(targetEl);
 
+            observer.unobserve(targetEl);
+       
         }
         createGallery(hits);
     }

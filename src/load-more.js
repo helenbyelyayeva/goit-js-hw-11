@@ -37,7 +37,7 @@ const onSearch = async event => {
             return;
         } else if (hits.length < api.perPage) {
             Notiflix.Notify.info(` Hooray! We found ${totalHits} images.`);
-            onScroll();
+            // onScroll();
             loadMoreBtn.classList.add('is-hidden');
             lightbox.refresh();
             return;
@@ -113,14 +113,14 @@ function clearGallery() {
 }
 
 
-function onScroll(e) {
-    const { height: cardHeight } = galleryEL.firstElementChild.getBoundingClientRect();
-    console.log(cardHeight);
-    window.scrollBy({
-        top: cardHeight * 2,
-        behavior: "smooth",
-    });
-}
+// function onScroll(e) {
+//     const { height: cardHeight } = galleryEL.firstElementChild.getBoundingClientRect();
+//     console.log(cardHeight);
+//     window.scrollBy({
+//         top: cardHeight * 2,
+//         behavior: "smooth",
+//     });
+// }
 
 formEl.addEventListener("submit", onSearch);
 loadMoreBtn.addEventListener('click', onLoadMore);
