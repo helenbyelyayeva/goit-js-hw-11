@@ -21,7 +21,6 @@ const options = {
 const onSearch = async event => {
     event.preventDefault();
     api.query = event.target.elements.searchQuery.value.trim();
-    observer.observe(targetEl);
     if (api.query === '') {
         Notiflix.Notify.failure('Enter data you want to find');
         clearGallery();
@@ -31,6 +30,7 @@ const onSearch = async event => {
         const { hits, totalHits } = await api.fetchInformation();
         clearGallery();
         createGallery(hits);
+        observer.observe(targetEl);
         if (hits.length === 0) {
             Notiflix.Notify.warning(
                 'Sorry, there are no images matching your search query. Please try again.'
@@ -43,6 +43,7 @@ const onSearch = async event => {
         lightbox.refresh();
         return;
         }
+        Notiflix.Notify.info(` Hooray! We found ${totalHits} images.`);
     } catch (err) {
         console.log;
     }
@@ -63,9 +64,7 @@ const observer = new IntersectionObserver( async (entries, observer) => {
             Notiflix.Notify.info(
                 "We're sorry, but you've reached the end of search results."
             );
-
             observer.unobserve(targetEl);
-       
         }
         createGallery(hits);
     }
@@ -103,7 +102,7 @@ function createMarkup(markup) {
 
 
 function createGallery(array) {
-    for (markup of array) {
+    for ( const markup of array) {
         createMarkup(markup);
     }
 }
@@ -123,4 +122,3 @@ function onScroll(e) {
 }
 
 formEl.addEventListener("submit", onSearch);
-

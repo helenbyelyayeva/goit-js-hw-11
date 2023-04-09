@@ -37,7 +37,7 @@ const onSearch = async event => {
             return;
         } else if (hits.length < api.perPage) {
             Notiflix.Notify.info(` Hooray! We found ${totalHits} images.`);
-            // onScroll();
+            onScroll();
             loadMoreBtn.classList.add('is-hidden');
             lightbox.refresh();
             return;
@@ -54,7 +54,7 @@ const onSearch = async event => {
 };
 
 const onLoadMore = async () => {
-    api.page++;
+    api.page += 1;
     try {
         const { hits, totalHits } = await api.fetchInformation();
         createGallery(hits);
@@ -63,11 +63,10 @@ const onLoadMore = async () => {
             Notiflix.Notify.info(
                 "We're sorry, but you've reached the end of search results."
             );
-            onScroll();
             loadMoreBtn.classList.add('is-hidden');
             return;
         }
-
+        onScroll();
     } catch (err) {
         console.log(err);
     }
@@ -103,7 +102,7 @@ function createMarkup(markup) {
 
 
 function createGallery(array) {
-    for (markup of array) {
+    for ( const markup of array) {
         createMarkup(markup);
     }
 }
